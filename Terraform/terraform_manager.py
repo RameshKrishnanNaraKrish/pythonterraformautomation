@@ -50,10 +50,23 @@ def destroy_terraform(working_dir, auto_approve=True):
         logging.info(f"Destroy successful: {stdout}")
     return return_code
 
+def execute_terraform_commands(commands, working_dir, var_params):
+    for command in commands:
+        if command == 'init':
+            init_terraform(working_dir)
+        elif command == 'plan':
+            plan_terraform(working_dir, var_params)
+        elif command == 'apply':
+            apply_terraform(working_dir, var_params)
+        elif command == 'destroy':
+            destroy_terraform(working_dir)
+        else:
+            logging.error(f"Unknown Terraform command: {command}")
+
 if __name__ == '__main__':
     # Parsing arguments from Jenkins
     parser = argparse.ArgumentParser(description="Terraform Automation")
-    parser.add_argument('--action', type=str, required=True, help='Terraform action: init, plan, apply, destroy')
+    parser.add_argument('--actions', type=str, required=True, help='Comma-separated list of Terraform actions: init, plan, apply, destroy')
     parser.add_argument('--aws_region', type=str, required=True, help='AWS region')
     parser.add_argument('--ami_id', type=str, required=True, help='AMI ID')
     parser.add_argument('--instance_type', type=str, required=True, help='EC2 instance type')
@@ -70,14 +83,6 @@ if __name__ == '__main__':
         "instance_type": args.instance_type
     }
 
-    # Execute the Terraform action based on Jenkins parameter
-    if args.action == 'init':
-        init_terraform(terraform_dir)
-    elif args.action == 'plan':
-        plan_terraform(terraform_dir, var_params)
-    elif args.action == 'apply':
-        apply_terraform(terraform_dir, var_params)
-    elif args.action == 'destroy':
-        destroy_terraform(terraform_dir)
-    else:
-        logging.error("Invalid action specified")
+    # Split the actions by comma and execute them in order
+    terraform_commands = args.actions.split(',')
+    execute_terraform_commands(terraform_commands, terraform_dir, var_params)

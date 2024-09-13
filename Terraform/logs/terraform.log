@@ -128,3 +128,55 @@ aws_instance.example: Creation complete after 33s [id=i-046239299118d52b4]
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
+2024-09-13 11:13:26,345 - DEBUG - read data from terraform/terraform.tfstate
+2024-09-13 11:13:26,346 - INFO - Initializing Terraform
+2024-09-13 11:13:26,347 - DEBUG - C:\Users\nkrk1\AppData\Local\Temp\tmphb87ru9s.tfvars.json is created
+2024-09-13 11:13:26,347 - DEBUG - variables wrote to tempfile: {}
+2024-09-13 11:13:26,348 - DEBUG - command: terraform init -var-file=C:\Users\nkrk1\AppData\Local\Temp\tmphb87ru9s.tfvars.json -no-color -input=false -reconfigure -backend=true
+2024-09-13 11:13:27,608 - DEBUG - output: b'Initializing the backend...\nInitializing provider plugins...\n- Reusing previous version of hashicorp/aws from the dependency lock file\n- Using previously-installed hashicorp/aws v5.67.0\n\nTerraform has been successfully initialized!\n\nYou may now begin working with Terraform. Try running "terraform plan" to see\nany changes that are required for your infrastructure. All Terraform commands\nshould now work.\n\nIf you ever set or change modules or backend configuration for Terraform,\nrerun this command to reinitialize your working directory. If you forget, other\ncommands will detect it and remind you to do so if necessary.\n'
+2024-09-13 11:13:27,608 - DEBUG - read data from terraform/terraform.tfstate
+2024-09-13 11:13:27,609 - INFO - Init successful: Initializing the backend...
+Initializing provider plugins...
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Using previously-installed hashicorp/aws v5.67.0
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+
+2024-09-13 11:13:58,788 - DEBUG - read data from terraform/terraform.tfstate
+2024-09-13 11:13:58,789 - INFO - Planning Terraform with variables: {'aws_region': 'us-east-1', 'ami_id': 'ami-0e86e20dae9224db8', 'instance_type': 't2.micro'}
+2024-09-13 11:13:58,790 - DEBUG - C:\Users\nkrk1\AppData\Local\Temp\tmptvmz17db.tfvars.json is created
+2024-09-13 11:13:58,790 - DEBUG - variables wrote to tempfile: {'aws_region': 'us-east-1', 'ami_id': 'ami-0e86e20dae9224db8', 'instance_type': 't2.micro'}
+2024-09-13 11:13:58,790 - DEBUG - command: terraform plan -var-file=C:\Users\nkrk1\AppData\Local\Temp\tmptvmz17db.tfvars.json -no-color -input=false -detailed-exitcode
+2024-09-13 11:14:02,902 - DEBUG - output: b'aws_instance.example: Refreshing state... [id=i-046239299118d52b4]\n\nNo changes. Your infrastructure matches the configuration.\n\nTerraform has compared your real infrastructure against your configuration\nand found no differences, so no changes are needed.\n'
+2024-09-13 11:14:02,902 - DEBUG - read data from terraform/terraform.tfstate
+2024-09-13 11:14:02,903 - INFO - Plan successful: aws_instance.example: Refreshing state... [id=i-046239299118d52b4]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.
+
+2024-09-13 11:14:30,674 - DEBUG - read data from terraform/terraform.tfstate
+2024-09-13 11:14:30,674 - INFO - Applying Terraform with variables: {'aws_region': 'us-east-1', 'ami_id': 'ami-0e86e20dae9224db8', 'instance_type': 't2.micro'}
+2024-09-13 11:14:30,675 - DEBUG - C:\Users\nkrk1\AppData\Local\Temp\tmp4v9gm4wt.tfvars.json is created
+2024-09-13 11:14:30,675 - DEBUG - variables wrote to tempfile: {'aws_region': 'us-east-1', 'ami_id': 'ami-0e86e20dae9224db8', 'instance_type': 't2.micro'}
+2024-09-13 11:14:30,675 - DEBUG - command: terraform apply -var-file=C:\Users\nkrk1\AppData\Local\Temp\tmp4v9gm4wt.tfvars.json -no-color -input=false -auto-approve=true -auto-approve=true
+2024-09-13 11:14:34,288 - DEBUG - output: b'aws_instance.example: Refreshing state... [id=i-046239299118d52b4]\n\nNo changes. Your infrastructure matches the configuration.\n\nTerraform has compared your real infrastructure against your configuration\nand found no differences, so no changes are needed.\n\nApply complete! Resources: 0 added, 0 changed, 0 destroyed.\n'
+2024-09-13 11:14:34,288 - DEBUG - read data from terraform/terraform.tfstate
+2024-09-13 11:14:34,305 - INFO - Apply successful: aws_instance.example: Refreshing state... [id=i-046239299118d52b4]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
