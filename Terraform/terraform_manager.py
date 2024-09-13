@@ -1,6 +1,6 @@
 import python_terraform
 import logging
-import os
+import argparse
 
 # Set up logging
 logging.basicConfig(filename='logs/terraform.log', level=logging.DEBUG,
@@ -51,15 +51,33 @@ def destroy_terraform(working_dir, auto_approve=True):
     return return_code
 
 if __name__ == '__main__':
+    # Parsing arguments from Jenkins
+    parser = argparse.ArgumentParser(description="Terraform Automation")
+    parser.add_argument('--action', type=str, required=True, help='Terraform action: init, plan, apply, destroy')
+    parser.add_argument('--aws_region', type=str, required=True, help='AWS region')
+    parser.add_argument('--ami_id', type=str, required=True, help='AMI ID')
+    parser.add_argument('--instance_type', type=str, required=True, help='EC2 instance type')
+    
+    args = parser.parse_args()
+
+    # Working directory for Terraform
     terraform_dir = "terraform/"
 
     # Define the variables dynamically
     var_params = {
-        "aws_region": "us-east-1",
-        "ami_id": "ami-0e86e20dae9224db8",
-        "instance_type": "t2.micro"
+        "aws_region": args.aws_region,
+        "ami_id": args.ami_id,
+        "instance_type": args.instance_type
     }
 
-    init_terraform(terraform_dir)
-    plan_terraform(terraform_dir, var_params)
-    apply_terraform(terraform_dir, var_params)
+    # Execute the Terraform action based on Jenkins parameter
+    if args.action == 'init':
+        init_terraform(terraform_dir)
+    elif args.action == 'plan':
+        plan_terraform(terraform_dir, var_params)
+    elif args.action == 'apply':
+        apply_terraform(terraform_dir, var_params)
+    elif args.action == 'destroy':
+        destroy_terraform(terraform_dir)
+    else:
+        logging.error("Invalid action specified")
