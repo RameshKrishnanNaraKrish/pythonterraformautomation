@@ -9,9 +9,22 @@ resource "random_string" "name" {
 resource "aws_instance" "example" {
   ami           = var.ami_id
   instance_type = var.instance_type
+  key_name                    = "mykey"
+  associate_public_ip_address = "true"
 
-  user_data = file("${path.module}/jenkinsinstall.sh")
+ provisioner "file" {
+    source      = "C:/Users/nkrk1/Documents/GitHub/pythonterraformautomation/Terraform/terraform/jenkinsinstall.sh"
+    destination = "/home/ubuntu/jenkinsinstall.sh"
+
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("C:/Users/nkrk1/Desktop/Devops HW/New folder/mykey.pem")
+      host        = self.public_ip
+    }
+  }
+
   tags = {
-    Name = random_string.name.result
+    Name = "terrafomr - ${random_string.name.result}"
   }
 }

@@ -22,7 +22,7 @@ pipeline {
                     sh '''
                     #!/bin/bash
                     cd Terraform
-                    python3 -m venv venv
+                    sudo python3 -m venv venv
                     . venv/bin/activate
                     pip install python-terraform
                     '''
@@ -37,7 +37,7 @@ pipeline {
                     #!/bin/bash
                     cd Terraform
                     . venv/bin/activate
-                    python3 main.py \
+                    python3 terraform_manager.py \
                         --tf_init ${params.TF_INIT} \
                         --tf_plan ${params.TF_PLAN} \
                         --tf_apply ${params.TF_APPLY} \
