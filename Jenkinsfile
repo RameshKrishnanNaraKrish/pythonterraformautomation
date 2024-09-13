@@ -20,9 +20,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    #!/bin/bash
                     cd Terraform
-                    sudo python3 -m venv venv
+                    python3 -m venv venv
                     . venv/bin/activate
                     pip install python-terraform
                     '''
