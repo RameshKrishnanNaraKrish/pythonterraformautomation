@@ -16,13 +16,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    sh '''
-                    # Set up virtual environment and install python-terraform package
-                    cd Terraform
-                    python3 -m venv venv
-                    source venv/bin/activate
-                    pip install python-terraform
-                    '''
+                    sh 'bash -c "cd Terraform && python3 -m venv venv && . venv/bin/activate && pip install python-terraform"'
                 }
             }
         }
@@ -31,8 +25,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                    source venv/bin/activate
-                    python3 terraform_manager.py --action ${params.ACTION} --aws_region ${params.AWS_REGION} --ami_id ${params.AMI_ID} --instance_type ${params.INSTANCE_TYPE}
+                    bash -c "cd Terraform && . venv/bin/activate && python3 main.py --action ${params.ACTION} --aws_region ${params.AWS_REGION} --ami_id ${params.AMI_ID} --instance_type ${params.INSTANCE_TYPE}"
                     """
                 }
             }
