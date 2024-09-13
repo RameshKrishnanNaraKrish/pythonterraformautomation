@@ -32,19 +32,25 @@ pipeline {
         stage('Execute Terraform Commands') {
             steps {
                 script {
-                    sh """
-                    #!/bin/bash
-                    cd Terraform
-                    . venv/bin/activate
-                    python3 terraform_manager.py \
-                        --tf_init ${params.TF_INIT} \
-                        --tf_plan ${params.TF_PLAN} \
-                        --tf_apply ${params.TF_APPLY} \
-                        --tf_destroy ${params.TF_DESTROY} \
-                        --aws_region ${params.AWS_REGION} \
-                        --ami_id ${params.AMI_ID} \
-                        --instance_type ${params.INSTANCE_TYPE}
-                    """
+                   // Build the command dynamically based on the selected parameters
+                    def command = "py terraform_manager.py"
+                    if (params.TF_INIT) {
+                        command += " --tf_init"
+                    }
+                    if (params.TF_PLAN) {
+                        command += " --tf_plan"
+                    }
+                    if (params.TF_APPLY) {
+                        command += " --tf_apply"
+                    }
+                    if (params.TF_DESTROY) {
+                        command += " --tf_destroy"
+                    }
+                    command += " --aws_region ${params.AWS_REGION} --ami_id ${params.AMI_ID} --instance_type ${params.INSTANCE_TYPE}"
+                    
+                    // Print and run the command
+                    echo "Executing command: ${command}"
+                    sh command
                 }
             }
         }
