@@ -33,6 +33,11 @@ pipeline {
             steps {
                 script {
                    // Build the command dynamically based on the selected parameters
+                    sh """
+                    #!/bin/bash
+                    cd Terraform
+                    . venv/bin/activate
+                    """
                     def command = "python3 terraform_manager.py"
                     if (params.TF_INIT) {
                         command += " --tf_init"
