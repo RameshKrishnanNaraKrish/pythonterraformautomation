@@ -55,7 +55,10 @@ pipeline {
                     
                     // Print and run the command
                     echo "Executing command: ${command}"
-                    sh command
+                    sh """
+                        cd Terraform
+                        ${command}
+                    """
                 }
             }
         }
