@@ -11,7 +11,7 @@ def init_terraform(working_dir):
     tf = python_terraform.Terraform(working_dir=working_dir)
     logging.info('Initializing Terraform')
 
-    return_code, stdout, stderr = tf.init()
+    return_code, stdout, stderr = tf.init(reconfigure=True)
 
     if return_code != 0:
         logging.error(f"Init failed: {stderr}")
@@ -41,16 +41,9 @@ def plan_terraform(working_dir, var_params):
 # Apply Terraform with dynamic variables
 def apply_terraform(working_dir, var_params, auto_approve=True):
     tf = python_terraform.Terraform(working_dir=working_dir)
-    
-    # Reinitialize the backend
-    return_code_init, stdout_init, stderr_init = tf.init(reconfigure=True)
-    if return_code_init != 0:
-        logging.error(f"Terraform init failed: {stderr_init}")
-        print(f"Error during init: {stderr_init}")
-        return return_code_init
-    
     logging.info(f"Applying Terraform with variables: {var_params}")
-    return_code, stdout, stderr = tf.apply(var=var_params, skip_plan=False, auto_approve=auto_approve)
+
+    return_code, stdout, stderr = tf.apply(var=var_params, skip_plan=True, auto_approve=auto_approve)
 
     if return_code != 0:
         logging.error(f"Apply failed: {stderr}")
@@ -60,7 +53,6 @@ def apply_terraform(working_dir, var_params, auto_approve=True):
         print(f"Output: {stdout}")
 
     return return_code
-
 
 # Destroy Terraform
 def destroy_terraform(working_dir, auto_approve=True):
