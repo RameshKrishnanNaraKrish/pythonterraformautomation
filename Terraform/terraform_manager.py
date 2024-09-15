@@ -2,8 +2,13 @@ import python_terraform
 import logging
 import argparse
 import subprocess
+import os
 
 # Set up logging
+
+if not os.path.exists('logs'):
+    os.makedirs('logs')
+
 logging.basicConfig(filename='logs/terraform.log', level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 

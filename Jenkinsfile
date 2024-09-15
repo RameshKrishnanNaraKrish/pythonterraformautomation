@@ -74,5 +74,28 @@ pipeline {
                 }
             }
         }
+
+         stage('Commit and Push Logs') {
+            steps {
+                script {
+                    // Set Git user configuration
+                    sh 'git config --global user.email "jenkins@example.com"'
+                    sh 'git config --global user.name "Jenkins"'
+
+                    // Add logs/terraform.log to Git
+                    sh 'git add logs/terraform.log'
+
+                    // Commit the log file
+                    sh 'git commit -m "Update Terraform logs from pipeline execution" || echo "No changes to commit"'
+
+                    // Push the changes to the remote repository
+
+                    sh 'git branch -M main'
+
+                    sh 'git remote add origin https://github.com/RameshKrishnanNaraKrish/pythonterraformautomation.git && git push -u origin main'
+
+                }
+            }
+         }
     }
 }
