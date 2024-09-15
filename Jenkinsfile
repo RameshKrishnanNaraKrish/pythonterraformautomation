@@ -84,7 +84,7 @@ pipeline {
                     sh """
                     cd ${TERRAFORM_DIR}
 
-                    git add /logs/terraform.log
+                    git add .
 
                     git commit -m "Update Terraform logs from pipeline execution" || echo "No changes to commit"
                     
