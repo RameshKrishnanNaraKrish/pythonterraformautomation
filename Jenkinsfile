@@ -85,7 +85,7 @@ pipeline {
                     echo pwd
 
                     // Add logs/terraform.log to Git
-                    sh 'git add logs/terraform.log'
+                    sh 'git add pythonterraformautomation/Terraform/logs/terraform.log'
 
                     // Commit the log file
                     sh 'git commit -m "Update Terraform logs from pipeline execution" || echo "No changes to commit"'
