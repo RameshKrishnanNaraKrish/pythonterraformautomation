@@ -12,7 +12,7 @@ pipeline {
     }
 
     environment {
-        TERRAFORM_DIR = "terraform/"  // Use consistent directory name (lowercase)
+        TERRAFORM_DIR = "Terraform/terraform/"  // Use consistent directory name (lowercase)
     }
 
     stages {
