@@ -85,16 +85,11 @@ pipeline {
                     cd ${TERRAFORM_DIR}
                     . venv/bin/activate
 
-                    git add .
+                    git add terraform_output.log
 
                     git commit -m "Update Terraform logs from pipeline execution" || echo "No changes to commit"
-
-
-                    git branch -M main
-
-                    git remote add origin https://github.com/RameshKrishnanNaraKrish/pythonterraformautomation.git 
                     
-                    git push -u origin main
+                    git push
                     """
                    
 
