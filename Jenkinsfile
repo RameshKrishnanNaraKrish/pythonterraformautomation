@@ -13,6 +13,8 @@ pipeline {
 
     environment {
         TERRAFORM_DIR = "terraform/"
+        AWS_ACCESS_KEY_ID     = credentials('aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
     }
 
     stages {
@@ -38,6 +40,12 @@ pipeline {
 
         stage('Execute Terraform Commands') {
             steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws_credentials',  // Use the ID of your AWS credentials
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+            ]])
                 script {
                    // Build the command dynamically based on the selected parameters
                     def command = "python3 terraform_manager.py"
@@ -58,6 +66,8 @@ pipeline {
                     // Print and run the command
                     echo "Executing command: ${command}"
                     sh """
+                        export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+                        export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
                         cd Terraform
                         . venv/bin/activate
                         ${command}
