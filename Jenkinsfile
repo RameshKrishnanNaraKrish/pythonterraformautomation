@@ -29,6 +29,7 @@ pipeline {
             steps {
                 script {
                     sh '''
+                    git pull origin main
                     cd ${TERRAFORM_DIR}
                     python3 -m venv venv
                     . venv/bin/activate
@@ -90,8 +91,6 @@ pipeline {
                     git add terraform_output.log
 
                     git commit -m "Update Terraform logs from pipeline execution" || echo "No changes to commit"
-
-                    git pull origin main --rebase
 
                     git remote set-url origin https://username:${GIT_TOKEN}@github.com/RameshKrishnanNaraKrish/pythonterraformautomation.git
 
