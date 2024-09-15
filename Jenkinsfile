@@ -83,6 +83,7 @@ pipeline {
 
                     sh """
                     cd ${TERRAFORM_DIR}
+                    . venv/bin/activate
 
                     git add .
 
