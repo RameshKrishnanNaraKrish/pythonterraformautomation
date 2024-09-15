@@ -15,13 +15,14 @@ pipeline {
         TERRAFORM_DIR = "terraform/"
     }
 
-    stage('Checkout') {
+    stages {
+
+        stage('Checkout') {
             steps {
                 checkout scm
             }
         }
 
-    stages {
         stage('Install Dependencies') {
             steps {
                 script {
