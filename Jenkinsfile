@@ -89,11 +89,11 @@ pipeline {
 
                     git commit -m "Update Terraform logs from pipeline execution" || echo "No changes to commit"
 
-                     git remote add origin https://github.com/RameshKrishnanNaraKrish/pythonterraformautomation.git
+                    git remote set-url origin https://github.com/RameshKrishnanNaraKrish/pythonterraformautomation.git
 
                     git branch -M main
 
-                    git push -u rigin main
+                    git push -u origin main
                     """
                    
 
