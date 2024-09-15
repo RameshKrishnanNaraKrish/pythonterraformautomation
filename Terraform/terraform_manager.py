@@ -64,8 +64,10 @@ def destroy_terraform(working_dir, auto_approve=True):
     
     if return_code != 0:
         logging.error(f"Destroy failed: {stderr}")  # No decode needed
+        print(f"Error: {stderr}")
     else:
         logging.info(f"Destroy successful: {stdout}")  # No decode needed
+        print(f"Error: {stderr}")
     
     return return_code
 
