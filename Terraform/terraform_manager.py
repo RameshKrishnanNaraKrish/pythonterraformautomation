@@ -1,6 +1,7 @@
 import python_terraform
 import logging
 import argparse
+import subprocess
 
 # Set up logging
 logging.basicConfig(filename='logs/terraform.log', level=logging.DEBUG,
@@ -56,20 +57,34 @@ def apply_terraform(working_dir, var_params, auto_approve=True):
 
 # Destroy Terraform
 def destroy_terraform(working_dir, auto_approve=True):
-    tf = python_terraform.Terraform(working_dir=working_dir)
-    logging.info('Destroying Terraform')
-    
-    # Ensure no '-force' flag is used; only auto_approve=True
-    return_code, stdout, stderr = tf.destroy(auto_approve=auto_approve)
-    
-    if return_code != 0:
-        logging.error(f"Destroy failed: {stderr}")  # No decode needed
-        print(f"Error: {stderr}")
-    else:
-        logging.info(f"Destroy successful: {stdout}")  # No decode needed
-        print(f"Error: {stderr}")
-    
-    return return_code
+    cmd = ["terraform", "destroy"]
+
+    # Add auto-approve flag if necessary
+    if auto_approve:
+        cmd.append("-auto-approve")
+
+    # Add variable parameters
+    for key, value in var_params.items():
+        cmd.extend(["-var", f"{key}={value}"])
+
+    # Set working directory and run the command
+    try:
+        logging.info(f"Running command: {' '.join(cmd)} in {working_dir}")
+        result = subprocess.run(cmd, cwd=working_dir, text=True, capture_output=True)
+        
+        if result.returncode != 0:
+            logging.error(f"Destroy failed: {result.stderr}")
+            print(f"Error: {result.stderr}")
+        else:
+            logging.info(f"Destroy successful: {result.stdout}")
+            print(f"Output: {result.stdout}")
+        
+        return result.returncode
+
+    except Exception as e:
+        logging.error(f"Error running terraform destroy: {str(e)}")
+        print(f"Exception: {str(e)}")
+        return 1
 
 # Execute selected Terraform commands based on Boolean parameters
 def execute_selected_commands(init, plan, apply, destroy, working_dir, var_params):
