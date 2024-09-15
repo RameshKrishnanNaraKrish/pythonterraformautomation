@@ -80,25 +80,23 @@ pipeline {
                 script {
                     sh """
                     cd ${TERRAFORM_DIR}
-                    """
-                    echo pwd
+
                     // Set Git user configuration
-                    sh 'git config --global user.email "jenkins@example.com"'
-                    sh 'git config --global user.name "Jenkins"'
+                    git config --global user.email "jenkins@example.com"
+                    git config --global user.name "Jenkins"
 
-                    echo pwd
+                    git add /logs/terraform.log
 
-                    // Add logs/terraform.log to Git
-                    sh 'git add /logs/terraform.log'
+                    git commit -m "Update Terraform logs from pipeline execution" || echo "No changes to commit"
 
-                    // Commit the log file
-                    sh 'git commit -m "Update Terraform logs from pipeline execution" || echo "No changes to commit"'
 
-                    // Push the changes to the remote repository
+                    git branch -M main
 
-                    sh 'git branch -M main'
-
-                    sh 'git remote add origin https://github.com/RameshKrishnanNaraKrish/pythonterraformautomation.git && git push -u origin main'
+                    git remote add origin https://github.com/RameshKrishnanNaraKrish/pythonterraformautomation.git 
+                    
+                    git push -u origin main
+                    """
+                   
 
                 }
             }
