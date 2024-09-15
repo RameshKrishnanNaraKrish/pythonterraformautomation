@@ -12,9 +12,7 @@ pipeline {
     }
 
     environment {
-        TERRAFORM_DIR = "terraform/"
-        AWS_ACCESS_KEY_ID     = credentials('aws-access-key-id')
-        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+        TERRAFORM_DIR = "terraform/"  // Use consistent directory name (lowercase)
     }
 
     stages {
@@ -29,7 +27,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    cd Terraform
+                    cd ${TERRAFORM_DIR}
                     python3 -m venv venv
                     . venv/bin/activate
                     pip install python-terraform
@@ -42,36 +40,37 @@ pipeline {
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'aws_credentials',  // Use the ID of your AWS credentials
+                    credentialsId: 'aws_credentials',  // Make sure this is the actual ID of your AWS credentials
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-            ]])
-                script {
-                   // Build the command dynamically based on the selected parameters
-                    def command = "python3 terraform_manager.py"
-                    if (params.TF_INIT) {
-                        command += " --tf_init"
+                ]]) {
+                    script {
+                        // Build the command dynamically based on the selected parameters
+                        def command = "python3 terraform_manager.py"
+                        if (params.TF_INIT) {
+                            command += " --tf_init"
+                        }
+                        if (params.TF_PLAN) {
+                            command += " --tf_plan"
+                        }
+                        if (params.TF_APPLY) {
+                            command += " --tf_apply"
+                        }
+                        if (params.TF_DESTROY) {
+                            command += " --tf_destroy"
+                        }
+                        command += " --aws_region ${params.AWS_REGION} --ami_id ${params.AMI_ID} --instance_type ${params.INSTANCE_TYPE}"
+
+                        // Print and run the command
+                        echo "Executing command: ${command}"
+                        sh """
+                            export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+                            export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+                            cd ${TERRAFORM_DIR}
+                            . venv/bin/activate
+                            ${command}
+                        """
                     }
-                    if (params.TF_PLAN) {
-                        command += " --tf_plan"
-                    }
-                    if (params.TF_APPLY) {
-                        command += " --tf_apply"
-                    }
-                    if (params.TF_DESTROY) {
-                        command += " --tf_destroy"
-                    }
-                    command += " --aws_region ${params.AWS_REGION} --ami_id ${params.AMI_ID} --instance_type ${params.INSTANCE_TYPE}"
-                    
-                    // Print and run the command
-                    echo "Executing command: ${command}"
-                    sh """
-                        export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-                        export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-                        cd Terraform
-                        . venv/bin/activate
-                        ${command}
-                    """
                 }
             }
         }

@@ -1,7 +1,5 @@
 provider "aws" {
   region     = var.aws_region
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
 }
 
 
@@ -18,4 +16,9 @@ resource "aws_instance" "example" {
   tags = {
     Name = "terrafomr - ${random_string.name.result}"
   }
+}
+
+output "instance_public_ip" {
+  description = "The public IP of the EC2 instance"
+  value       = aws_instance.example.public_ip
 }
