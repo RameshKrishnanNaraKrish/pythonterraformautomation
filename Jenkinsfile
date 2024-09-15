@@ -82,7 +82,7 @@ pipeline {
                     sh 'git config --global user.email "jenkins@example.com"'
                     sh 'git config --global user.name "Jenkins"'
 
-                    sh 'echo pwd'
+                    echo pwd
 
                     // Add logs/terraform.log to Git
                     sh 'git add logs/terraform.log'
