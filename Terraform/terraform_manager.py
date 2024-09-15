@@ -12,7 +12,7 @@ def init_terraform(working_dir):
     logging.info('Initializing Terraform')
 
     return_code, stdout, stderr = tf.init()
-    
+
     if return_code != 0:
         logging.error(f"Init failed: {stderr}")
         print(f"Error: {stderr}")
@@ -43,7 +43,7 @@ def apply_terraform(working_dir, var_params, auto_approve=True):
     tf = python_terraform.Terraform(working_dir=working_dir)
     logging.info(f"Applying Terraform with variables: {var_params}")
 
-    return_code, stdout, stderr = tf.apply(var=var_params, skip_plan=False, auto_approve=auto_approve)
+    return_code, stdout, stderr = tf.apply(var=var_params, skip_plan=True, auto_approve=auto_approve)
 
     if return_code != 0:
         logging.error(f"Apply failed: {stderr}")
