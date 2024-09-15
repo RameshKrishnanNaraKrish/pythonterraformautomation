@@ -78,6 +78,9 @@ pipeline {
          stage('Commit and Push Logs') {
             steps {
                 script {
+                    sh """
+                    cd ${TERRAFORM_DIR}
+                    """
                     // Set Git user configuration
                     sh 'git config --global user.email "jenkins@example.com"'
                     sh 'git config --global user.name "Jenkins"'
@@ -85,7 +88,7 @@ pipeline {
                     echo pwd
 
                     // Add logs/terraform.log to Git
-                    sh 'git add pythonterraformautomation/Terraform/logs/terraform.log'
+                    sh 'git add /logs/terraform.log'
 
                     // Commit the log file
                     sh 'git commit -m "Update Terraform logs from pipeline execution" || echo "No changes to commit"'
