@@ -3,3 +3,4 @@ Terraform/.terraform
 Terraform/terraform/terraform.tfstate
 Terraform/terraform/terraform.tfstate.backup
 Terraform/terraform/.terraform
+venv
