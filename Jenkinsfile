@@ -81,6 +81,7 @@ pipeline {
                     sh """
                     cd ${TERRAFORM_DIR}
                     """
+                    echo pwd
                     // Set Git user configuration
                     sh 'git config --global user.email "jenkins@example.com"'
                     sh 'git config --global user.name "Jenkins"'
