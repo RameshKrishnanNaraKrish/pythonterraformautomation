@@ -13,6 +13,7 @@ pipeline {
 
     environment {
         TERRAFORM_DIR = "Terraform/"  // Use consistent directory name (lowercase)
+        GIT_REPO_URL = 'https://github.com/RameshKrishnanNaraKrish/pythonterraformautomation.git'
     }
 
     stages {
@@ -89,7 +90,9 @@ pipeline {
 
                     git commit -m "Update Terraform logs from pipeline execution" || echo "No changes to commit"
 
-                    git push -u origin main
+                    git remote set-url origin ${GIT_REPO_URL}
+
+                    git push origin main
                     """
                    
 
