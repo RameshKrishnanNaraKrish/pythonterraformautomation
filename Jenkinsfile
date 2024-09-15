@@ -89,7 +89,7 @@ pipeline {
 
                     git commit -m "Update Terraform logs from pipeline execution" || echo "No changes to commit"
                     
-                    git push
+                    git push origin main
                     """
                    
 
